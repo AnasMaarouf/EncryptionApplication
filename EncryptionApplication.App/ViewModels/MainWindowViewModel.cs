@@ -58,14 +58,6 @@ namespace EncryptionApplication.App.ViewModels
             set { this.RaiseAndSetIfChanged(ref _errorMessage, value); }
         }
 
-        // Progressbar variable.
-        private string _progressBarColor = "Gray";
-        public string ProgressBarColor
-        {
-            get { return _progressBarColor; }
-            set { this.RaiseAndSetIfChanged(ref _progressBarColor, value); }
-        }
-
         #endregion
 
 
@@ -233,7 +225,6 @@ namespace EncryptionApplication.App.ViewModels
                 }
                 lock (_dataLock)
                 {
-                    ProgressBarColor = "Yellow";
                     ErrorMessage += ($"----------------------< !!! Encryption started !!! --> Folder: {folder} >---------------------\n");
                     ErrorMessage += ($"File containing encryption key found! File: {_file_EncryptionKey}\n");
                 }
@@ -316,7 +307,6 @@ namespace EncryptionApplication.App.ViewModels
                 lock (_dataLock)
                 {
                     watch.Stop();
-                    ProgressBarColor = "Green";
                     ErrorMessage += ($"------------< DONE: Files encrypted! Execution time: {watch.ElapsedMilliseconds} --> Folder: {folder} >------------\n");
                 }
             });
@@ -368,7 +358,6 @@ namespace EncryptionApplication.App.ViewModels
                 }
                 lock (_dataLock)
                 {
-                    ProgressBarColor = "Yellow";
                     ErrorMessage += ($"----------------------< !!! Decryption started !!! --> Folder: {folder} >---------------------\n");
                     ErrorMessage += ($"File containing encryption key found! File: {_file_EncryptionKey}\n");
                 }
@@ -449,11 +438,10 @@ namespace EncryptionApplication.App.ViewModels
                 });
 
 
-                watch.Stop();
                 lock (_dataLock)
                 {
-                    ProgressBarColor = "Green";
                     ErrorMessage += ($"------------< DONE: Files decrypted! Execution time: {watch.ElapsedMilliseconds} --> Folder: {folder} >------------\n");
+                    watch.Stop();
                 }
             });
             _decryptionThread.Start();

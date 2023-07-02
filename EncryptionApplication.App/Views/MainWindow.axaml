@@ -32,8 +32,6 @@
 		<Grid Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="325,5,0,0" FontSize="18" TextWrapping="Wrap" Background="Yellow" >Warning:</TextBlock>
 			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="340,27,10,0" TextWrapping="Wrap" Background="Yellow" > If the length or size of the encryption key (measured in the number of bytes) is larger than the initial buffer. The buffer will increase to the length/size of the encryption key squared, resulting in higher ram usage.</TextBlock>
-			
-			<ProgressBar Margin="350,130,0,0" Background="Gray" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="100" Minimum="0" Width="300" Height="20" ShowProgressText="False"/>
 		</Grid>
 
 		
