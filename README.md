@@ -6,4 +6,4 @@ The shuffle algorithm run several times during ONE SINGLE encryption or decrypti
 The reason to shuffle the data the number of bytes in the encryptionkey, with the combination of using each byte of the key as the seed for the random number generation, is to make it more dependent on the encryptionkey, than to sum each byte of the key and using that with the fisher-yates shuffle algorithm once.
 
 # XOR-encryption and addition/Subtraction-encryption
-These are used as an additional measure to
+These are used as an additional encryption for the files, to obfuscate the data more than just shuffling it, and make it harder to revert the shuffle.
