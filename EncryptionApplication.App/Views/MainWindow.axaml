@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:EncryptionApplication.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+        mc:Ignorable="d" MinWidth="700" MinHeight="300" Width="700" Height="300"
+		x:Class="EncryptionApplication.App.Views.MainWindow"
+        Icon="/Assets/Lock-key.ico"
+        Title="File Encryptor/Decryptor">
+	
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	
+	<Grid Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+		<Grid Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14" Margin="0,12,0,0">Source folder: </TextBlock>
+			<TextBox VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="95,5,0,0" Width="220" Height="32" Text="{Binding SourceFolderForEncryption}"/>
+			
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14" Margin="0,56,0,0" >EncryptionKey: </TextBlock>
+			<TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="102,50,0,0" Width="213" Height="32" Text="{Binding SourceFileForEncryptionKey}"/>
+
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14" Margin="0,101,0,0" >Processor Count: </TextBlock>
+			<NumericUpDown VerticalAlignment="Top" HorizontalAlignment="Left" Margin="115,95,0,0" Width="120" Height="32" Value="{Binding ProcessorCount}"/>
+				
+			
+			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,135,120,0" Command="{Binding EncryptFiles}">Encrypt files</Button>
+			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="180,135,0,0" Command="{Binding DecryptFiles}">Decrypt files</Button>
+		</Grid>
+		<Grid Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="325,5,0,0" FontSize="18" TextWrapping="Wrap" Background="Yellow" >Warning:</TextBlock>
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="340,27,10,0" TextWrapping="Wrap" Background="Yellow" > If the length or size of the encryption key (measured in the number of bytes) is larger than the initial buffer. The buffer will increase to the length/size of the encryption key squared, resulting in higher ram usage.</TextBlock>
+			
+			<ProgressBar Margin="350,130,0,0" Background="Gray" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="100" Minimum="0" Width="300" Height="20" ShowProgressText="False"/>
+		</Grid>
+
+		
+		<ScrollViewer Margin="0,180,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0"  Text="{Binding ErrorMessage}"/>
+		</ScrollViewer>
+	</Grid>
+</Window>
