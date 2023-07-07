@@ -134,12 +134,8 @@ namespace EncryptionApplication.App.ViewModels
                     shuffle(data, seed, count);
                     seed = 0;
                 }
-
                 seed = (encryptionKey[index] << sizeof(byte) - 1);
             }
-
-            for (int index = 0; index < encryptionKey.Length; index++)
-                shuffle(data, encryptionKey.Length, count);
 
             for (int dataIndex = 0, keyIndex = 0; dataIndex < count; dataIndex++, keyIndex++)
             {
