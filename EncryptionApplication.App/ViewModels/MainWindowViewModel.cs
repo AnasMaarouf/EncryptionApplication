@@ -129,7 +129,7 @@ namespace EncryptionApplication.App.ViewModels
             int seed = 0;
             for (int index = 0; index < encryptionKey.Length; index++)
             {
-                if ((index + 1) % (sizeof(int)/sizeof(byte)) == 0 || (index + 1) == encryptionKey.Length)
+                if ((index + 1) % (sizeof(int) / sizeof(byte)) == 0 || (index + 1) == encryptionKey.Length)
                 {
                     shuffle(data, seed, count);
                     seed = 0;
@@ -137,6 +137,9 @@ namespace EncryptionApplication.App.ViewModels
 
                 seed = (encryptionKey[index] << sizeof(byte) - 1);
             }
+
+            for (int index = 0; index < encryptionKey.Length; index++)
+                shuffle(data, encryptionKey.Length, count);
 
             for (int dataIndex = 0, keyIndex = 0; dataIndex < count; dataIndex++, keyIndex++)
             {
@@ -176,7 +179,7 @@ namespace EncryptionApplication.App.ViewModels
                 data[dataIndex] ^= encryptionKey[keyIndex];
             }
 
-            
+
             List<int> listOfSeeds = new List<int>();
             int seed = 0;
             for (int index = 0; index < encryptionKey.Length; index++)
@@ -186,12 +189,12 @@ namespace EncryptionApplication.App.ViewModels
                     listOfSeeds.Add(seed);
                     seed = 0;
                 }
-
                 seed = (encryptionKey[index] << sizeof(byte) - 1);
             }
 
             for (int index = listOfSeeds.Count - 1; index >= 0; index--)
                 reverseShuffle(data, listOfSeeds[index], count);
+
 
             // ------------------------------------------------< Decryption process >------------------------------------------------
         }
