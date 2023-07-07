@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EncryptionApplication.App.ViewModels
 {
@@ -127,8 +126,17 @@ namespace EncryptionApplication.App.ViewModels
         private void EncodeTransform(byte[] data, byte[] encryptionKey, int count)
         {
             // ------------------------------------------------< Encryption process >------------------------------------------------
+            int seed = 0;
             for (int index = 0; index < encryptionKey.Length; index++)
-                shuffle(data, encryptionKey[index], count);
+            {
+                if ((index + 1) % (sizeof(int)/sizeof(byte)) == 0 || (index + 1) == encryptionKey.Length)
+                {
+                    shuffle(data, seed, count);
+                    seed = 0;
+                }
+
+                seed = (encryptionKey[index] << sizeof(byte) - 1);
+            }
 
             for (int dataIndex = 0, keyIndex = 0; dataIndex < count; dataIndex++, keyIndex++)
             {
@@ -164,12 +172,27 @@ namespace EncryptionApplication.App.ViewModels
             {
                 if (keyIndex >= encryptionKey.Length)
                     keyIndex = 0;
-
+                
                 data[dataIndex] ^= encryptionKey[keyIndex];
             }
+
             
-            for (int index = encryptionKey.Length - 1; index >= 0; index--)
-                reverseShuffle(data, encryptionKey[index], count);
+            List<int> listOfSeeds = new List<int>();
+            int seed = 0;
+            for (int index = 0; index < encryptionKey.Length; index++)
+            {
+                if ((index + 1) % (sizeof(int) / sizeof(byte)) == 0 || index == encryptionKey.Length - 1)
+                {
+                    listOfSeeds.Add(seed);
+                    seed = 0;
+                }
+
+                seed = (encryptionKey[index] << sizeof(byte) - 1);
+            }
+
+            for (int index = listOfSeeds.Count - 1; index >= 0; index--)
+                reverseShuffle(data, listOfSeeds[index], count);
+
             // ------------------------------------------------< Decryption process >------------------------------------------------
         }
 
@@ -185,14 +208,6 @@ namespace EncryptionApplication.App.ViewModels
         #region Commands
         private void EncryptFiles()
         {
-            if (_encryptionThread != null)
-                if (_encryptionThread.ThreadState == System.Threading.ThreadState.Running)
-                    return;
-
-            if (_decryptionThread != null)
-                if (_decryptionThread.ThreadState == System.Threading.ThreadState.Running)
-                    return;
-
             _encryptionThread = new System.Threading.Thread(() =>
             {
                 var watch = new System.Diagnostics.Stopwatch(); // Initialise a stopwatch.
@@ -317,15 +332,6 @@ namespace EncryptionApplication.App.ViewModels
 
         private void DecryptFiles()
         {
-            if (_encryptionThread != null )
-                if (_encryptionThread.ThreadState == System.Threading.ThreadState.Running)
-                    return;
-            
-            if (_decryptionThread != null)
-                if (_decryptionThread.ThreadState == System.Threading.ThreadState.Running)
-                    return;
-            
-
             _decryptionThread = new System.Threading.Thread(() =>
             {
                 var watch = new System.Diagnostics.Stopwatch(); // Initialise a stopwatch.
