@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-        mc:Ignorable="d" MinWidth="700" MinHeight="300" Width="700" Height="300"
+        mc:Ignorable="d" MinWidth="700" MinHeight="350" Width="700" Height="420"
 		x:Class="EncryptionApplication.App.Views.MainWindow"
         Icon="/Assets/Lock-key.ico"
         Title="File Encryptor/Decryptor">
@@ -26,16 +26,25 @@
 			<NumericUpDown VerticalAlignment="Top" HorizontalAlignment="Left" Margin="115,95,0,0" Width="120" Height="32" Value="{Binding ProcessorCount}"/>
 				
 			
-			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,135,120,0" Command="{Binding EncryptFiles}">Encrypt files</Button>
-			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="180,135,0,0" Command="{Binding DecryptFiles}">Decrypt files</Button>
+			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,135,120,0" Command="{Binding EncryptFiles}" IsEnabled="{Binding EncryptionDecryptionButtonEnabled}" IsVisible="{Binding EncryptionDecryptionButtonEnabled}">Encrypt files</Button>
+			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="180,135,0,0" Command="{Binding DecryptFiles}" IsEnabled="{Binding EncryptionDecryptionButtonEnabled}" IsVisible="{Binding EncryptionDecryptionButtonEnabled}">Decrypt files</Button>
+		
+			<Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="33,135,120,0" Command="{Binding CancelProcess}" IsEnabled="{Binding CancelButtonEnabled}" IsVisible="{Binding CancelButtonEnabled}">Stop encryption/decryption process</Button>
 		</Grid>
+		
 		<Grid Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="325,5,0,0" FontSize="18" TextWrapping="Wrap" Background="Yellow" >Warning:</TextBlock>
-			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="340,27,10,0" TextWrapping="Wrap" Background="Yellow" > If the length or size of the encryption key (measured in the number of bytes) is larger than the initial buffer. The buffer will increase to the length/size of the encryption key squared, resulting in higher ram usage.</TextBlock>
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="325,5,0,0" FontSize="18" TextWrapping="Wrap" Background="Yellow">Warning:</TextBlock>
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Margin="340,27,10,0" TextWrapping="Wrap" Background="Yellow">
+				If the length or size of the encryption key (measured in the number of bytes) is larger than the initial buffer. The buffer will increase to the length/size of the encryption key squared, resulting in higher ram usage.
+			</TextBlock>
+			
+			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Margin="340,115,10,0" TextWrapping="Wrap" Background="Red">
+				Stopping the process WILL NOT revert the already encrypted files back to original, but it will revert the file it was currently working on.
+			</TextBlock>
 		</Grid>
 
 		
-		<ScrollViewer Margin="0,180,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+		<ScrollViewer Margin="0,180,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
 			<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0"  Text="{Binding ErrorMessage}"/>
 		</ScrollViewer>
 	</Grid>
